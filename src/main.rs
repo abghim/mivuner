@@ -96,14 +96,19 @@ fn df(input: &Func) -> Func {
 				Bin::Mul => df(x)*(**y).clone()+df(y)*(**x).clone(),
 				Bin::Div => (df(x)*(**y).clone()-df(y)*(**x).clone())/((**y).clone() ^ Num(2.0)),
 				Bin::Pow => {
-                    let f = (**x).clone();
-                    let g = (**y).clone();
+					if let Num(k) = (**y).clone() {
+						Num(k)*((**x).clone()^Num(k-1.0))*df(x)
+					} else {
 
-                    let f_prime = df(x);
-                    let g_prime = df(y);
+	                    let f = (**x).clone();
+	                    let g = (**y).clone();
 
-                    let term = g_prime * Func::ln(f.clone()) + g.clone() * f_prime / f.clone();
-                    (f ^ g) * term
+	                    let f_prime = df(x);
+	                    let g_prime = df(y);
+
+	                    let term = g_prime * Func::ln(f.clone()) + g.clone() * f_prime / f.clone();
+	                    (f ^ g) * term
+					}
                 }
 			}
 		}
