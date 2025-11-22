@@ -1,14 +1,17 @@
-#[derive(Debug, Clone, Copy)]
+#![allow(dead_code)]
+#![allow(unused)]
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Bin {
 	Add, Sub, Mul, Div, Pow
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Un {
 	Sin, Cos, Ln, Exp, Neg
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 enum Func {
 	Var,
 	Const(&'static str),
@@ -16,6 +19,8 @@ enum Func {
 	Binary(Bin, Box<Func>, Box<Func>),
 	Unary(Un, Box<Func>)
 }
+
+use std::fmt::Binary;
 
 use Func::*;
 
@@ -79,7 +84,7 @@ impl std::ops::BitXor for Func {
 	}
 }
 
-fn df(input: &Func) -> Func{
+fn df(input: &Func) -> Func {
 	match input {
 		Var => Num(1.0),
 		Num(a) => Num(0.0),
@@ -142,12 +147,107 @@ impl std::fmt::Display for Func {
 }
 
 fn simplify(input: &Func) -> Func {
-	todo!("Add bare-minimum simplification engine (0+Func, 1*Func, 0*Func, etc). Recursively descend into the function tree and apply the rules.");
+	match input {
+		Binary(op, rx, ry) => {
+			let x = simplify(rx);
+			let y = simplify(ry);
+
+			let new = Binary((*op).clone(), Box::new(x.clone()), Box::new(y.clone()));
+
+			match op {
+				Bin::Add => {
+					if (x).clone() == Num(0.0) {
+						(y).clone()
+					} else if (y).clone() == Num(0.0) {
+						(x).clone()
+					} else {
+						new.clone()
+					}
+				}
+                Bin::Sub => {
+	                if (x).clone() == Num(0.0) {
+						-((y).clone())
+					} else if (y).clone() == Num(0.0) {
+						(x).clone()
+					} else {
+						new.clone()
+					}
+	            }
+                Bin::Mul => {
+	                if (x).clone() == Num(1.0) {
+						(y).clone()
+					} else if (y).clone() == Num(1.0) {
+						(x).clone()
+					} else if (y).clone() == Num(1.0) || (x).clone() == Num(0.0) {
+						Num(0.0)
+					} else {
+						new.clone()
+					}
+                }
+
+                Bin::Div => {
+                	if (y).clone() == Num(0.0) {
+               			panic!("Division by zero");
+                 	} else if (x).clone() == Num(0.0) {
+                  		Num(0.0)
+                  	} else if (y).clone() == Num(1.0) {
+                   		(x).clone()
+                   	} else {
+                   	new.clone()
+                    }
+                }
+
+                Bin::Pow => {
+                	if (y).clone() == Num(0.0) {
+                 		Num(1.0)
+                 	} else if (y).clone() == Num(1.0) {
+                  		(x).clone()
+                  	} else if (x).clone() == Num(0.0) {
+                   		Num(0.0)
+                   	} else {
+                   	new.clone()
+                    }
+                }
+			}
+		},
+
+		Unary(op, rx) => {
+			let x = &simplify(rx);
+			let new = Unary((*op).clone(), Box::new(x.clone()));
+
+
+			match op {
+				Un::Ln => {
+					if let Num(k) = x {
+						if *k <= 0.0 {
+							panic!("ln undefined");
+						} else {
+							new.clone()
+						}
+					} else {
+						new.clone()
+					}
+				}
+				Un::Neg => {
+					if let Unary(Un::Neg, k) = (x).clone() {
+						(*k).clone()
+					} else {
+						new.clone()
+					}
+				}
+
+				_ => new.clone()
+			}
+		}
+
+		_ => (*input).clone()
+	}
+
 }
 
 fn main() {
 	let test: Func = (Num(2.0)*(Var^Num(2.0))-Func::sin(Func::exp(Var))-(Var^Num(0.5))/Func::ln(Var))*(Num(3.0)*Var-Num(1.0))/(Var^Num(4.0));
 	let test2: Func = Num(2.0)*(Var^Num(2.0));
-	println!("{}", df(&test));
-	println!("{}", df(&test2));
+	println!("{}", simplify(&df(&test)));
+	println!("{}", simplify(&df(&test2)));
 }
