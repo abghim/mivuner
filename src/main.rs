@@ -192,10 +192,7 @@ fn simplify(input: &Func) -> Func {
 fn main() {
     use std::io::{self, BufRead, Write};
 
-    // following is adapted from `lrpar` official calculator example, for REPL
-    // Get the `LexerDef` for the `calc` language.
-    let lexerdef = calc_l::lexerdef();
-    let stdin = io::stdin();
+
 
     print!(r#"Mivuner: a simple differentiation engine for elementary functions.
 (c) Aiden Ghim, 2025
@@ -204,6 +201,11 @@ https://github.com/abghim/mivuner (licensed WTFPL)
 `x` is assumed to be the variable; all other identifiers are constants. The functions sin(), cos(), exp(), ln() and operators +-*/^ are available. Ctrl-C to quit.
 "#);
 
+
+    // following is adapted from `lrpar` official calculator example, for REPL
+    // Get the `LexerDef` for the `calc` language.
+    let lexerdef = calc_l::lexerdef();
+    let stdin = io::stdin();
 
     loop {
         print!(">>> ");
