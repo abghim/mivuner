@@ -1,3 +1,4 @@
+use ::cfgrammar;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Bin {
@@ -21,7 +22,7 @@ pub enum Un {
 #[derive(Debug, Clone, PartialEq)]
 pub enum Func {
     Var,
-    Const(&'static str),
+    Const(String),
     Num(f32),
     Binary(Bin, Box<Func>, Box<Func>),
     Unary(Un, Box<Func>),
