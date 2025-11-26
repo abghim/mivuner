@@ -197,6 +197,12 @@ fn main() {
     let lexerdef = calc_l::lexerdef();
     let stdin = io::stdin();
 
+    print!(r#"Mivuner: a simple differentiation engine for elementary functions.
+(c) Aiden Ghim, 2025
+https://github.com/abghim/mivuner (licensed WTFPL)
+
+`x` is assumed to be the variable; all other identifiers are constants. The functions sin(), cos(), exp(), ln() and operators +-*/^ are available. Ctrl-C to quit.
+"#);
 
 
     loop {
