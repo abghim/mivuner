@@ -116,6 +116,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1"
 
 [[package]]
+name = "getopts"
+version = "0.2.24"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cfe4fbac503b8d1f88e6676011885f34b7174f46e59956bba534ba83abded4df"
+dependencies = [
+ "unicode-width 0.2.2",
+]
+
+[[package]]
+name = "glob"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0cc23270f6e1808e30a928bdc84dea0b9b4136a8bc82338574f23baf47bbd280"
+
+[[package]]
 name = "hashbrown"
 version = "0.16.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -165,6 +180,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "lrlex"
+version = "0.14.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7234ad6d92b04c8016c13e2058a98bcb375a642041fb1189da41e4022043b85f"
+dependencies = [
+ "bincode",
+ "cfgrammar",
+ "getopts",
+ "glob",
+ "lrpar",
+ "num-traits",
+ "prettyplease",
+ "proc-macro2",
+ "quote",
+ "regex",
+ "regex-syntax",
+ "syn",
+ "vergen",
+]
+
+[[package]]
 name = "lrpar"
 version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -183,7 +219,7 @@ dependencies = [
  "quote",
  "regex",
  "syn",
- "unicode-width",
+ "unicode-width 0.1.14",
  "vergen",
  "vob",
  "web-time",
@@ -213,6 +249,8 @@ checksum = "f52b00d39961fc5b2736ea853c9cc86238e165017a493d1d5c8eac6bdc4cc273"
 name = "mivuner"
 version = "0.1.0"
 dependencies = [
+ "cfgrammar",
+ "lrlex",
  "lrpar",
 ]
 
@@ -430,6 +468,12 @@ name = "unicode-width"
 version = "0.1.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7dd6e30e90baa6f72411720665d41d89b9a3d039dc45b8faea1ddd07f617f6af"
+
+[[package]]
+name = "unicode-width"
+version = "0.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b4ac048d71ede7ee76d585517add45da530660ef4390e49b098733c6e897f254"
 
 [[package]]
 name = "unty"

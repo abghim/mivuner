@@ -3,5 +3,13 @@ name = "mivuner"
 version = "0.1.0"
 edition = "2024"
 
+[build-dependencies]
+cfgrammar = "0.14"
+lrlex = "0.14"
+lrpar = "0.14"
+
+
 [dependencies]
+cfgrammar = "0.14"
+lrlex = "0.14.0"
 lrpar = "0.14.0"
