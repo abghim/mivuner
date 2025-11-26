@@ -1,3 +1,4 @@
+
 #![allow(dead_code)]
 #![allow(unused)]
 
@@ -189,19 +190,15 @@ fn simplify(input: &Func) -> Func {
 }
 
 fn main() {
-    let test: Func = (Num(2.0) * (Var ^ Num(2.0))
-        - Func::sin(Func::exp(Var))
-        - (Var ^ Num(0.5)) / Func::ln(Var))
-        * (Num(3.0) * Var - Num(1.0))
-        / (Var ^ Num(4.0));
-    let test2: Func = Num(2.0) * (Var ^ Num(2.0));
-    let test3: Func = Num(2.0) * Func::sin(Num(2.0) * Var);
-
-
     use std::io::{self, BufRead, Write};
+
+    // following is adapted from `lrpar` official calculator example, for REPL
     // Get the `LexerDef` for the `calc` language.
     let lexerdef = calc_l::lexerdef();
     let stdin = io::stdin();
+
+
+
     loop {
         print!(">>> ");
         io::stdout().flush().ok();
@@ -210,7 +207,7 @@ fn main() {
                 if l.trim().is_empty() {
                     continue;
                 }
-                // Now we create a lexer with the `lexer` method with which we can lex an input.
+                // Now we create a lexer
                 let lexer = lexerdef.lexer(l);
                 // Pass the lexer to the parser and lex and parse the input.
                 let (res, errs) = calc_y::parse(&lexer);
@@ -219,8 +216,7 @@ fn main() {
                 }
                 match res {
                     Some(Ok(r)) => {
-                    println!("Result: {}", simplify(&df(&r)));
-                    println!("{:?}", r)
+                    println!("{}", simplify(&df(&r)))
                     },
                     _ => eprintln!("Unable to evaluate expression.")
                 }

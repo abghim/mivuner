@@ -35,7 +35,7 @@ unary -> Result<crate::types::Func, ()>
     ;
 
 power -> Result<crate::types::Func, ()>
-    : primary '^' func   /* right-associative */ {
+    : func '^' power   /* right-associative */ {
     	Ok($1? ^ $3?)
     }
     | func { $1 }
