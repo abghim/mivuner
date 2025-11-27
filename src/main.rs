@@ -33,6 +33,12 @@ fn df(input: &Func) -> Func {
             Bin::Pow => {
                 if let Num(k) = (**y).clone() {
                     Num(k) * ((**x).clone() ^ Num(k - 1.0)) * df(x)
+                } else if let Num(k) = (**x).clone() { 
+                    Func::ln(Num(k))*((**x).clone() ^ (**y).clone()) * df(y)
+                } else if let Const(k) = (**x).clone() { 
+                    Func::ln(Const(k))*((**x).clone() ^ (**y).clone()) * df(y)
+                } else if let Const(k) = (**y).clone() {
+                    Const(k.clone()) * ((**x).clone() ^ (Const(k) - Num(1.0))) * df(x)
                 } else {
                     let f = (**x).clone();
                     let g = (**y).clone();
@@ -188,6 +194,13 @@ fn simplify(input: &Func) -> Func {
         _ => (*input).clone(),
     }
 }
+
+
+/* this uses law of exponentiation to simplify each terms (a.k.a. yakvuner) */
+fn simplify_terms(input: &Func, chain: Vec<Func>) -> Func {
+    todo!("Simplify each term with exponentiation laws");
+}
+
 
 fn main() {
     use std::io::{self, BufRead, Write};
