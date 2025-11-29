@@ -8,4 +8,4 @@ Still in initial development. Todo:
 - partial derivatives; differentiate wrt given variable
 
 <img width="4219" height="1635" alt="out" src="https://github.com/user-attachments/assets/61f8f5c6-238b-4834-9356-4a03414473dc" />
-Made with `termshot`
+Image made with `termshot`(<a href="https://github.com/homeport/termshot">https://github.com/homeport/termshot</a>)
